@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <v-main class="custom-bg">
+        <v-main class="custom-bg pt-7">
             <router-view></router-view>
         </v-main>
         <Footer />
