@@ -1,0 +1,4 @@
+{
+    "email_or_phone": "The {_field_} field may only contain phone number or email",
+    "custom_password": "The {_field_} field may only contain at least one (upper case, lower case, digit, special character) "
+}
