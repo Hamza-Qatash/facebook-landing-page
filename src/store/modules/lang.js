@@ -12,10 +12,19 @@ const mutations = {
     SET_LANG(state, langPayload) {
         const isRTL = langPayload == "ar" ? true : false;
         state.lang = langPayload;
-        i18n.locale = langPayload;
-        Vue.prototype.$vuetify.rtl = isRTL;
-        Vue.prototype.$vuetify.lang.current = langPayload;
-        Vue.prototype.locale = langPayload;
+        if(Vue.prototype.$vuetify) {
+            i18n.locale = langPayload;
+            Vue.prototype.$vuetify.rtl = isRTL;
+            Vue.prototype.$vuetify.lang.current = langPayload;
+            Vue.prototype.locale = langPayload;
+        }else {
+            setTimeout(() => {
+                i18n.locale = langPayload;
+                Vue.prototype.$vuetify.rtl = isRTL;
+                Vue.prototype.$vuetify.lang.current = langPayload;
+                Vue.prototype.locale = langPayload;
+            }, 0);
+        }
     }
 };
 const actions = {

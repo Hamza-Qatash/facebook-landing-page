@@ -1,21 +1,18 @@
 <template>
     <v-footer class="custom-footer white justify-start align-start">
         <v-container>
-            <div class="pt-3 caption mb-3 d-flex flex-wrap pointer">
-                <v-hover
-                    v-slot="{ hover }"
+            <div
+                class="pt-3 caption mb-3 d-flex flex-wrap pointer"
+                ref="langsWrapper"
+            >
+                <span
                     v-for="(lang, index) in languages"
                     :key="index"
+                    @click="changLang(lang, $event)"
+                    class="pe-3 grey--text text--darken-1 text-decoration-none pointer lang-element"
+                    :class="{'font-weight-bold': lang === 'English (US)'}"
+                    >{{ lang }}</span
                 >
-                    <span
-                        @click="changLang(lang)"
-                        :class="{
-                            'text-decoration-underline': hover,
-                        }"
-                        class="pe-3 grey--text text--darken-1 text-decoration-none pointer"
-                        >{{ lang }}</span
-                    >
-                </v-hover>
                 <v-btn x-small class="custom-blus-button elevation-0">
                     <v-icon class="grey--text text--darken-2 fs-20"
                         >mdi-plus</v-icon
@@ -95,15 +92,16 @@ export default {
         ],
     }),
     methods: {
-        changLang(lang) {
+        changLang(lang, e) {
+            let allLangsArr = [...this.$refs.langsWrapper.children];
+            allLangsArr.forEach((el) => {
+                el.classList.remove("font-weight-bold");
+            });
+            e.target.classList.add("font-weight-bold");
             const isoLang = lang === "العربية" ? "ar" : "en";
-            let langIndex = isoLang == "ar" ? 1 : 0;
-            if (this.$route.meta.title) {
-                document.title = `${this.$route.meta.title[langIndex]}`;
-            } else {
-                document.title = "Facebook";
+            if (this.$route.params.lang !== isoLang) {
+                this.$router.replace({ params: { lang: isoLang } });
             }
-            this.$store.dispatch("setLang", isoLang);
         },
     },
 };
@@ -118,5 +116,8 @@ export default {
     border: 1px solid #ccd0d5;
     height: 20px;
     width: 30px !important;
+}
+.lang-element:hover {
+    text-decoration: underline !important;
 }
 </style>
